@@ -5,7 +5,9 @@ import BoardActions from '../../redux/actions/BoardActions';
 import GameActions from '../../redux/actions/GameActions';
 import Board from '../../components/board/Board';
 import Screen from '../screen/Screen';
-import { BoardsContainer, BoardCpuContainer, BottomContainer, FeedbackContainer, ButtonContainer } from './styles';
+import {
+  BoardsContainer, BoardCpuContainer, BottomContainer, FeedbackContainer, ButtonContainer,
+} from './styles';
 import { Text, ScreenButton } from '../screenStyles';
 
 const GameScreen = (props) => {
@@ -70,13 +72,15 @@ const GameScreen = (props) => {
           </BoardsContainer>
           <BottomContainer>
             <FeedbackContainer>
-              <Text size={'1.4em'}>
-                  {props.attemptFeedback}
+              <Text size="1.4em">
+                {props.attemptFeedback}
               </Text>
             </FeedbackContainer>
             <ButtonContainer>
-              <Text size={'1.4em'}>
-                Playing: {props.currentPlayer}
+              <Text size="1.4em">
+                Playing:
+                {' '}
+                {props.currentPlayer}
               </Text>
               <Link to="/end">
                 <ScreenButton>

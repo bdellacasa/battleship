@@ -7,11 +7,11 @@ describe('Game reducer', () => {
   });
 
   it('should handle UPDATE_PLAYER_NAME', () => {
-    const playerName = "Lucas";
+    const playerName = 'Lucas';
     const args = playerName;
     expect(gameReducer(undefined, { type: types.UPDATE_PLAYER_NAME, args })).toEqual({
-        ...initial_state,
-        playerName
+      ...initial_state,
+      playerName,
     });
   });
 });

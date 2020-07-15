@@ -68,7 +68,10 @@ const StartScreen = (props) => {
         <div style={{ paddingBottom: 30 }}>
           { loadShipSelector ? (
             <Text>
-              Hi {playerName}, please locate your ships!
+              Hi
+              {' '}
+              {playerName}
+              , please locate your ships!
             </Text>
           ) : <Text>Please enter your name!</Text> }
         </div>

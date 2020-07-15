@@ -20,7 +20,7 @@ export const initial_state = {
   playerShips: [],
   savedPlayerShip: false,
   cpuHasTarget: false,
-  attemptFeedback: undefined
+  attemptFeedback: undefined,
 };
 
 export const boardReducer = (state = initial_state, action) => {

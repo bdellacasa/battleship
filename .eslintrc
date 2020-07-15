@@ -17,6 +17,12 @@
         "no-underscore-dangle": 0,
         "react/destructuring-assignment": 0,
         "react/no-array-index-key": 0,
-        "react/prop-types": 0
+        "react/prop-types": 0,
+        "eqeqeq": "off",
+        "max-len": "off",
+        "default-case": "off",
+        "no-plusplus": "off",
+        "no-param-reassign": "off",
+        "no-else-return": "off"
     }
 }

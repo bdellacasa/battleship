@@ -10,34 +10,34 @@ describe('Board reducer', () => {
   it('should handle INIT_EMPTY_BOARD', () => {
     const playerBoard = helpers.initEmptyBoard();
     const args = {
-        playerBoard,
-    }
+      playerBoard,
+    };
     expect(boardReducer(undefined, { type: types.INIT_CPU_BOARD })).toEqual({
-        ...initial_state,
-        ...args
+      ...initial_state,
+      ...args,
     });
   });
 
   it('should handle UPDATE_PLAYER_BOARD', () => {
     const args = {
-        savedPlayerShip: false
-    }
+      savedPlayerShip: false,
+    };
     expect(boardReducer(undefined, {
-        type: types.UPDATE_PLAYER_BOARD,
-        args
+      type: types.UPDATE_PLAYER_BOARD,
+      args,
     })).toEqual({
-        ...initial_state,
-        ...args
+      ...initial_state,
+      ...args,
     });
   });
 
   it('should handle RESTART_SAVED_PLAYER_SHIP', () => {
     const args = {
-        savedPlayerShip: false
-    }
+      savedPlayerShip: false,
+    };
     expect(boardReducer(undefined, { type: types.RESTART_SAVED_PLAYER_SHIP })).toEqual({
-        ...initial_state,
-        ...args
+      ...initial_state,
+      ...args,
     });
   });
 });

@@ -31,7 +31,7 @@ export const BottomContainer = styled.div`
         padding-top: 120px;
         flex-direction: column;
     }
-`
+`;
 
 export const FeedbackContainer = styled.div`
     flex-direction: column;

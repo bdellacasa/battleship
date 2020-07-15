@@ -236,14 +236,18 @@ const attack = (board, row, col, countShips) => {
   };
 };
 
-const changeAttackDirection = (orientation, lastCpuHit, numberOfHits, lastCpuDirection) => {
+const isValidPositionToShot = (playerBoard, position) => {
+  return (isValidPosition(position.row, position.col) && playerBoard[position.row][position.col].id !== CELL_ID_VALUE.WATER);
+}
+
+const changeAttackDirection = (playerBoard, orientation, lastCpuHit, numberOfHits, lastCpuDirection) => {
   let position; let
     optionalDirection;
   if (orientation == SHIP_ORIENTATION.HORIZONTAL) {
     if (lastCpuDirection == DIRECTION.RIGHT) {
       position = {
         row: lastCpuHit.row,
-        row: lastCpuHit.col - numberOfHits,
+        col: lastCpuHit.col - numberOfHits,
         direction: DIRECTION.LEFT,
       };
       optionalDirection = DIRECTION.UP;
@@ -270,16 +274,17 @@ const changeAttackDirection = (orientation, lastCpuHit, numberOfHits, lastCpuDir
     };
     optionalDirection = DIRECTION.LEFT;
   }
-  if (isValidPosition(position.row, position.col)) {
+  if (isValidPositionToShot(playerBoard, position)) {
     return position;
-  } return {
+  }
+  return {
     row: lastCpuHit.row,
     col: lastCpuHit.col,
     direction: optionalDirection,
   };
 };
 
-const rotateAttackDirection = (lastCpuHit, lastCpuDirection) => {
+const getNextRotation = (lastCpuHit, lastCpuDirection) => {
   let position;
   switch (lastCpuDirection) {
     case DIRECTION.UP:
@@ -288,37 +293,39 @@ const rotateAttackDirection = (lastCpuHit, lastCpuDirection) => {
         col: lastCpuHit.col + 1,
         direction: DIRECTION.RIGHT,
       };
-      if (isValidPosition(position.row, position.col)) {
-        return position;
-      } return rotateAttackDirection(lastCpuHit, DIRECTION.DOWN);
+      break;
     case DIRECTION.RIGHT:
       position = {
         row: lastCpuHit.row + 1,
         col: lastCpuHit.col,
         direction: DIRECTION.DOWN,
       };
-      if (isValidPosition(position.row, position.col)) {
-        return position;
-      } return rotateAttackDirection(lastCpuHit, DIRECTION.LEFT);
+      break;
     case DIRECTION.DOWN:
       position = {
         row: lastCpuHit.row,
         col: lastCpuHit.col - 1,
         direction: DIRECTION.LEFT,
       };
-      if (isValidPosition(position.row, position.col)) {
-        return position;
-      } return rotateAttackDirection(lastCpuHit, DIRECTION.UP);
+      break;
     case DIRECTION.LEFT:
       position = {
         row: lastCpuHit.row - 1,
         col: lastCpuHit.col,
         direction: DIRECTION.UP,
       };
-      if (isValidPosition(position.row, position.col)) {
-        return position;
-      } return rotateAttackDirection(lastCpuHit, DIRECTION.RIGHT);
+      break;
   }
+  return position;
+}
+
+const rotateAttackDirection = (playerBoard, lastCpuHit, lastCpuDirection) => {
+  let position, direction = lastCpuDirection;
+  do {
+    position = getNextRotation(lastCpuHit, direction);
+    direction = position.direction;
+  } while(!isValidPositionToShot(playerBoard, position));
+  return position;
 };
 
 const getNextPosition = (playerBoard, orientation, lastCpuHit, numberOfHits, lastCpuDirection) => {
@@ -350,10 +357,9 @@ const getNextPosition = (playerBoard, orientation, lastCpuHit, numberOfHits, las
       direction: DIRECTION.DOWN,
     };
   }
-
-  if (isValidPosition(position.row, position.col) && playerBoard[position.row][position.col].id !== CELL_ID_VALUE.WATER) {
+  if (isValidPositionToShot(playerBoard, position)) {
     return position;
-  } return changeAttackDirection(orientation, lastCpuHit, numberOfHits, lastCpuDirection);
+  } else return changeAttackDirection(playerBoard, orientation, lastCpuHit, numberOfHits, lastCpuDirection);
 };
 
 const getNextCpuAttackPosition = (playerBoard, size, shipPosToHit, orientation, lastCpuHit, lastCpuDirection, cpuHasTarget) => {
@@ -361,10 +367,8 @@ const getNextCpuAttackPosition = (playerBoard, size, shipPosToHit, orientation, 
   if (numberOfHits > 1) {
     if (cpuHasTarget) {
       return getNextPosition(playerBoard, orientation, lastCpuHit, numberOfHits, lastCpuDirection);
-    }
-    return changeAttackDirection(orientation, lastCpuHit, numberOfHits, lastCpuDirection);
-  }
-  return rotateAttackDirection(lastCpuHit, lastCpuDirection);
+    } else return changeAttackDirection(playerBoard, orientation, lastCpuHit, numberOfHits, lastCpuDirection);
+  } else return rotateAttackDirection(playerBoard, lastCpuHit, lastCpuDirection);
 };
 
 const getShipSize = (id) => {
