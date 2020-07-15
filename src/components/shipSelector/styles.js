@@ -31,7 +31,8 @@ export const Row = styled.div`
     align-items: center;
     align-content: space-around;
     padding: 10px;
-    font-family: 'Black Ops One';
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: bold;
     font-size: 1.2em;
     color: white;
 

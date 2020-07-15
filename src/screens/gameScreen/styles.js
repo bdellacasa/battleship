@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const BoardsContainer = styled.div`
     display: flex;
     flex-direction: row;
 
@@ -22,16 +22,34 @@ export const BoardCpuContainer = styled.div`
     }
 `;
 
-export const ButtonContainer = styled.div`
+export const BottomContainer = styled.div`
+    display: flex;
     flex-direction: row;
-    width: 50%; 
-    justify-content: flex-end; 
-    margin-top: 20px; 
-    margin-left: 60%;
-
+    margin-top: 20px;
+    width: 100%;
     @media screen and (max-width: 480px) {
-        width: 100%; 
         padding-top: 120px;
-        margin-left: 0;
+        flex-direction: column;
+    }
+`
+
+export const FeedbackContainer = styled.div`
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+    margin-top: 10px;
+    @media screen and (max-width: 480px) {
+        flex-direction: row;
+        width: 100%;
+    }
+`;
+
+export const ButtonContainer = styled.div`
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+    @media screen and (max-width: 480px) {
+        flex-direction: row;
+        width: 100%;
     }
 `;

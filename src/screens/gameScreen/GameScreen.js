@@ -5,7 +5,7 @@ import BoardActions from '../../redux/actions/BoardActions';
 import GameActions from '../../redux/actions/GameActions';
 import Board from '../../components/board/Board';
 import Screen from '../screen/Screen';
-import { Container, BoardCpuContainer, ButtonContainer } from './styles';
+import { BoardsContainer, BoardCpuContainer, BottomContainer, FeedbackContainer, ButtonContainer } from './styles';
 import { Text, ScreenButton } from '../screenStyles';
 
 const GameScreen = (props) => {
@@ -54,7 +54,7 @@ const GameScreen = (props) => {
     finishGame ? <Redirect to="/end" push />
       : (
         <div>
-          <Container>
+          <BoardsContainer>
             <div style={{ flexDirection: 'column' }}>
               <div style={{ paddingBottom: 10 }}>
                 <Text>{props.playerName}</Text>
@@ -67,18 +67,24 @@ const GameScreen = (props) => {
               </div>
               <Board cpu click board={props.cpuBoard} onClickBoard={(position) => handleClickBoard(position)} />
             </BoardCpuContainer>
-          </Container>
-          <ButtonContainer>
-            <Text>
-              Playing:
-              {props.currentPlayer}
-            </Text>
-            <Link to="/end">
-              <ScreenButton>
-                Surrender
-              </ScreenButton>
-            </Link>
-          </ButtonContainer>
+          </BoardsContainer>
+          <BottomContainer>
+            <FeedbackContainer>
+              <Text size={'1.4em'}>
+                  {props.attemptFeedback}
+              </Text>
+            </FeedbackContainer>
+            <ButtonContainer>
+              <Text size={'1.4em'}>
+                Playing: {props.currentPlayer}
+              </Text>
+              <Link to="/end">
+                <ScreenButton>
+                  Surrender
+                </ScreenButton>
+              </Link>
+            </ButtonContainer>
+          </BottomContainer>
         </div>
       )
   );
@@ -103,6 +109,7 @@ const mapStateToProps = (state, props) => ({
   updatedPlayerBoard: state.board.updatedPlayerBoard,
   shipsCpuCount: state.board.shipsCpuCount,
   shipsPlayerCount: state.board.shipsPlayerCount,
+  attemptFeedback: state.board.attemptFeedback,
   playerName: state.game.playerName,
   currentPlayer: state.game.currentPlayer,
   winner: state.game.winner,

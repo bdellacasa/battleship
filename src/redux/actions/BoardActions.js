@@ -39,6 +39,7 @@ const cpuAttack = () => (dispatch, getState) => {
       shipsPlayerCount: _shipsPlayerCount,
       updatedPlayerBoard: true,
       cpuHasTarget,
+      attemptFeedback: undefined
     },
   });
 };
@@ -105,12 +106,15 @@ const playerAttack = ({ row, col }) => (dispatch, getState) => {
   const { board, hit, shipDestroyed } = helpers.attack(boardState.cpuBoard, row, col, boardState.cpuShips);
   let { shipsCpuCount } = boardState;
   const { cpuShips } = boardState;
+  let attemptFeedback = "Shot missed!";
   if (hit) {
     const codeShip = boardState.cpuBoard[row][col].code;
     cpuShips[codeShip]--;
+    attemptFeedback = "Ship hit!"
   }
   if (shipDestroyed) {
     shipsCpuCount--;
+    attemptFeedback = "Ship destroyed!";
   }
   return dispatch({
     type: PLAYER_ATTACK,
@@ -119,6 +123,7 @@ const playerAttack = ({ row, col }) => (dispatch, getState) => {
       shipsCpuCount,
       cpuShips,
       updatedPlayerBoard: false,
+      attemptFeedback
     },
   });
 };

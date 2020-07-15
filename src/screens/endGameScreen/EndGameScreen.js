@@ -17,11 +17,13 @@ const EndGameScreen = (props) => {
     <div>
       <div style={{ flexDirection: 'column' }}>
         <Message>
-          <Text>
-            {props.winner}
-            {' '}
-            wins!
-          </Text>
+          {props.winner ?
+            <Text>
+              {props.winner} wins!
+            </Text> :
+            <Text>
+              You have surrendered
+            </Text>}
           <Link style={{ paddingTop: 50, paddingRight: '40px' }} to="/">
             <ScreenButton onClick={() => handleClickRestart()}>
               Restart

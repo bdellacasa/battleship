@@ -22,8 +22,9 @@ export const ScreenButton = styled.button`
 `;
 
 export const Text = styled.label`
-    font-family: 'Black Ops One';
-    font-size: 1.6em;
+    font-family: 'Share Tech Mono', monospace;
+    font-size:  ${(props) => (props.size ? props.size : '1.7em')};
+    font-weight: bold;
     color: white;
     align-self: center;
 
