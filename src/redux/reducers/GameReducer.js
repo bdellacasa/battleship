@@ -2,7 +2,7 @@ import {
   UPDATE_PLAYER_NAME, UPDATE_CURRENT_PLAYER, UPDATE_WINNER, RESTART,
 } from '../actions/types';
 
-const initial_state = {
+export const initial_state = {
   playerName: undefined,
   currentPlayer: 'CPU',
   winner: undefined,

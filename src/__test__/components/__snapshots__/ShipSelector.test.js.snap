@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShipSelector snapshot Check the ShipSelector Snapshot 1`] = `
+<div>
+  <div
+    class="sc-AxjAm eYvEuJ"
+  >
+    <div
+      class="sc-AxirZ gLcDKb"
+    >
+      <div
+        class="sc-AxiKw bBhsBf"
+      >
+        <label>
+          Carriers
+          :
+           
+          0
+        </label>
+      </div>
+      <div
+        class="sc-AxiKw bBhsBf"
+      >
+        <div
+          class="sc-AxhCb rGnja"
+        >
+          <img
+            class="sc-AxhUy ejZzpX"
+            src="carrier.png"
+          />
+        </div>
+        <div
+          class="sc-AxhCb rGnja"
+        >
+          <button
+            class="sc-AxgMl btOBxa"
+          >
+            Select
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sc-AxirZ gLcDKb"
+    >
+      <div
+        class="sc-AxiKw bBhsBf"
+      >
+        <label>
+          Cruisers
+          :
+           
+          0
+        </label>
+      </div>
+      <div
+        class="sc-AxiKw bBhsBf"
+      >
+        <div
+          class="sc-AxhCb rGnja"
+        >
+          <img
+            class="sc-AxhUy ejZzpX"
+            src="cruiser.png"
+          />
+        </div>
+        <div
+          class="sc-AxhCb rGnja"
+        >
+          <button
+            class="sc-AxgMl btOBxa"
+          >
+            Select
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sc-AxirZ gLcDKb"
+    >
+      <div
+        class="sc-AxiKw bBhsBf"
+      >
+        <label>
+          Submarines
+          :
+           
+          0
+        </label>
+      </div>
+      <div
+        class="sc-AxiKw bBhsBf"
+      >
+        <div
+          class="sc-AxhCb rGnja"
+        >
+          <img
+            class="sc-AxhUy ejZzpX"
+            src="submarine.png"
+          />
+        </div>
+        <div
+          class="sc-AxhCb rGnja"
+        >
+          <button
+            class="sc-AxgMl btOBxa"
+          >
+            Select
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="sc-AxiKw bBhsBf"
+    >
+      <label
+        style="padding-right: 15px;"
+      >
+        Dir: Vertical
+      </label>
+      <button
+        style="padding-right: 15px;"
+      >
+        Rotate
+      </button>
+    </div>
+  </div>
+</div>
+`;
