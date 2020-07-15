@@ -8,52 +8,54 @@ import { Message } from './styles';
 import { Text, ScreenButton } from '../screenStyles';
 
 const EndGameScreen = (props) => {
-    const handleClickRestart = () => {
-        props.resetBoard();
-        props.restartGame();
-    }
+  const handleClickRestart = () => {
+    props.resetBoard();
+    props.restartGame();
+  };
 
-    const renderContent = () => {
-        return(
-            <div>
-                <div style={{flexDirection: "column"}}>
-                    <Message>
-                        <Text>{props.winner} wins!</Text>
-                        <Link style={{paddingTop: 50, paddingRight: '40px'}} to="/">
-                            <ScreenButton onClick={() => handleClickRestart()}>
-                                Restart 
-                            </ScreenButton>
-                        </Link>
-                    </Message>
-                </div>
-            </div>
-        )
-    }
+  const renderContent = () => (
+    <div>
+      <div style={{ flexDirection: 'column' }}>
+        <Message>
+          <Text>
+            {props.winner}
+            {' '}
+            wins!
+          </Text>
+          <Link style={{ paddingTop: 50, paddingRight: '40px' }} to="/">
+            <ScreenButton onClick={() => handleClickRestart()}>
+              Restart
+            </ScreenButton>
+          </Link>
+        </Message>
+      </div>
+    </div>
+  );
 
-    return (
-        <Screen
-            content={
+  return (
+    <Screen
+      content={
                 renderContent()
             }
-        />
-    );
-}
+    />
+  );
+};
 
 /**
- * 
- * @param {ReduxState} state 
- * @param {object} props 
+ *
+ * @param {ReduxState} state
+ * @param {object} props
  */
 const mapStateToProps = (state, props) => ({
-    winner: state.game.winner
-})
+  winner: state.game.winner,
+});
 
-const mapDispatchToProps = dispatch => ({    
-    resetBoard: () => dispatch(BoardActions.restart()),
-    restartGame: () => dispatch(GameActions.restart())
-})
+const mapDispatchToProps = (dispatch) => ({
+  resetBoard: () => dispatch(BoardActions.restart()),
+  restartGame: () => dispatch(GameActions.restart()),
+});
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps,
 )(EndGameScreen);

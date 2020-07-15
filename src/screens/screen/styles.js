@@ -27,7 +27,7 @@ export const Content = styled.div`
     justify-content: center;
     margin-top: 10px;
     margin-bottom: 10px;
-    background: ${props => `url(${props.url})`};
+    background: ${(props) => `url(${props.url})`};
     background-position-y: -5px;
     
     @media screen and (max-width: 480px) {
