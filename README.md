@@ -2,6 +2,10 @@
 
 Battleship game made with React JS
 
+## Live demo
+
+https://battleship-3432dwe.netlify.app/
+
 ## Installation
 
 - Download or clone the repo
