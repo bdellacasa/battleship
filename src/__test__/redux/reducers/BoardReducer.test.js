@@ -1,10 +1,10 @@
-import { boardReducer, initial_state } from '../../../redux/reducers/BoardReducer';
+import { boardReducer, initialState } from '../../../redux/reducers/BoardReducer';
 import * as types from '../../../redux/actions/types';
 import helpers from '../../../utils/Helpers';
 
 describe('Board reducer', () => {
   it('should return the initial state', () => {
-    expect(boardReducer(undefined, {})).toEqual(initial_state);
+    expect(boardReducer(undefined, {})).toEqual(initialState);
   });
 
   it('should handle INIT_EMPTY_BOARD', () => {
@@ -13,7 +13,7 @@ describe('Board reducer', () => {
       playerBoard,
     };
     expect(boardReducer(undefined, { type: types.INIT_CPU_BOARD })).toEqual({
-      ...initial_state,
+      ...initialState,
       ...args,
     });
   });
@@ -26,7 +26,7 @@ describe('Board reducer', () => {
       type: types.UPDATE_PLAYER_BOARD,
       args,
     })).toEqual({
-      ...initial_state,
+      ...initialState,
       ...args,
     });
   });
@@ -36,7 +36,7 @@ describe('Board reducer', () => {
       savedPlayerShip: false,
     };
     expect(boardReducer(undefined, { type: types.RESTART_SAVED_PLAYER_SHIP })).toEqual({
-      ...initial_state,
+      ...initialState,
       ...args,
     });
   });

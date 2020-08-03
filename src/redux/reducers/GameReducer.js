@@ -2,13 +2,13 @@ import {
   UPDATE_PLAYER_NAME, UPDATE_CURRENT_PLAYER, UPDATE_WINNER, RESTART,
 } from '../actions/types';
 
-export const initial_state = {
+export const initialState = {
   playerName: undefined,
   currentPlayer: 'CPU',
   winner: undefined,
 };
 
-export const gameReducer = (state = initial_state, action) => {
+export const gameReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_PLAYER_NAME:
       return { ...state, playerName: action.args };
@@ -19,7 +19,7 @@ export const gameReducer = (state = initial_state, action) => {
     case UPDATE_WINNER:
       return { ...state, winner: action.args };
     case RESTART:
-      return { ...initial_state };
+      return { ...initialState };
     default:
       return state;
   }

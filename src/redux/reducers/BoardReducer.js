@@ -4,7 +4,7 @@ import {
 import { NUMBER_OF_SHIP, DIRECTION } from '../../utils/Constants';
 import helpers from '../../utils/Helpers';
 
-export const initial_state = {
+export const initialState = {
   cpuBoard: helpers.initEmptyBoard(),
   playerBoard: helpers.initEmptyBoard(),
   shipsCpuCount: 0, // Total number of cpu ships without being destroyed
@@ -23,7 +23,7 @@ export const initial_state = {
   attemptFeedback: undefined,
 };
 
-export const boardReducer = (state = initial_state, action) => {
+export const boardReducer = (state = initialState, action) => {
   switch (action.type) {
     case INIT_CPU_BOARD:
     case CPU_ATTACK:
@@ -33,7 +33,7 @@ export const boardReducer = (state = initial_state, action) => {
       return { ...state, ...action.args };
 
     case RESTART:
-      return { ...initial_state };
+      return { ...initialState };
 
     case RESTART_SAVED_PLAYER_SHIP:
       return { ...state, savedPlayerShip: false };

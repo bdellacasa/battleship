@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import BoardActions from '../../../redux/actions/BoardActions';
-import { initial_state as board } from '../../../redux/reducers/BoardReducer';
+import { initialState as board } from '../../../redux/reducers/BoardReducer';
 import * as types from '../../../redux/actions/types';
 import helpers from '../../../utils/Helpers';
 import { SHIP_TYPE_SUBMARINE, SHIP_ORIENTATION, CELL_ID_VALUE } from '../../../utils/Constants';
