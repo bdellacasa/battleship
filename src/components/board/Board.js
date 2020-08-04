@@ -1,48 +1,19 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import helpers from '../../utils/Helpers';
-import { CELL_ID_VALUE } from '../../utils/Constants';
-import { Container, CellDiv, Row } from './styles';
-
-const Cell = (props) => {
-  const getCellColor = () => {
-    if (props.mark) {
-      return '#9C9B9A';
-    }
-    switch (props.id) {
-      case CELL_ID_VALUE.DEFAULT:
-        return '#000066';
-      case CELL_ID_VALUE.WATER:
-        return '#0077B3';
-      case CELL_ID_VALUE.HIT:
-        return '#FF9933';
-      case CELL_ID_VALUE.DESTROYED:
-        return 'red';
-      default:
-        if (!props.showShip) {
-          return 'grey';
-        } return '#000066';
-    }
-  };
-
-  const handleClick = () => {
-    if (!(props.id == CELL_ID_VALUE.WATER || props.id == CELL_ID_VALUE.HIT || props.id == CELL_ID_VALUE.DESTROYED)) {
-      props.onClick();
-    }
-  };
-
-  return (
-    <CellDiv color={getCellColor()} onMouseOver={() => props.onMouseHover()} onClick={() => handleClick()} />
-  );
-};
+import Cell from './cell/Cell';
+import { Container, Row } from './styles';
 
 const Board = (props) => {
+  const {
+    cpu, click, board, shipSelected, shipOrientation, onClickBoard,
+  } = props;
   const [positionsToMark, setPositionsToMark] = useState(undefined);
 
   const markPositions = (row, col) => {
     setPositionsToMark(undefined);
-    if (props.shipSelected) {
-      const positions = helpers.getShipPositions(props.board, props.shipSelected.size, row, col, props.shipOrientation);
+    if (shipSelected) {
+      const positions = helpers.getShipPositions(board, shipSelected.size, row, col, shipOrientation);
       if (positions) {
         setPositionsToMark(positions);
       } else {
@@ -51,28 +22,34 @@ const Board = (props) => {
     }
   };
 
+  const handleOnClick = (x, y) => {
+    if (click) {
+      onClickBoard({ row: x, col: y });
+    }
+  };
+
   const getBoard = () => {
     let mark;
-    const board = props.board.map((row, x) => (
-      <Row key={x}>
+    const updatedBoard = board.map((row, x) => (
+      <Row key={x.toString()}>
         {row.map((column, y) => {
-          mark = positionsToMark && positionsToMark.findIndex((pos) => pos.row == x && pos.col == y) !== -1;
+          mark = positionsToMark && positionsToMark.findIndex((pos) => pos.row === x && pos.col === y) !== -1;
           return (
-            <div key={y}>
+            <div key={y.toString()}>
               <Cell
-                showShip={props.cpu}
-                code={props.board[x][y].code}
-                id={props.board[x][y].id}
+                showShip={cpu}
+                code={board[x][y].code}
+                id={board[x][y].id}
                 onMouseHover={() => markPositions(x, y)}
                 mark={mark}
-                onClick={() => { props.click && props.onClickBoard({ row: x, col: y }); }}
+                onClick={() => handleOnClick(x, y)}
               />
             </div>
           );
         })}
       </Row>
     ));
-    return board;
+    return updatedBoard;
   };
 
   return (
@@ -83,7 +60,18 @@ const Board = (props) => {
 };
 
 Board.propTypes = {
-  board: PropTypes.array,
+  cpu: PropTypes.bool.isRequired,
+  click: PropTypes.bool.isRequired,
+  board: PropTypes.arrayOf(PropTypes.array.isRequired).isRequired,
+  shipSelected: PropTypes.element,
+  shipOrientation: PropTypes.number,
+  onClickBoard: PropTypes.func,
+};
+
+Board.defaultProps = {
+  shipSelected: null,
+  shipOrientation: null,
+  onClickBoard: () => {},
 };
 
 export default Board;

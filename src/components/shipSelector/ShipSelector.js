@@ -118,7 +118,7 @@ const ShipSelector = (props) => {
   const renderRotateButton = () => (
     <Row>
       <label style={{ paddingRight: 15 }}>{text}</label>
-      <button style={{ paddingRight: 15 }} onClick={() => handleOnClick()}>Rotate</button>
+      <button style={{ paddingRight: 15 }} onClick={() => handleOnClick()} type="button">Rotate</button>
     </Row>
   );
 

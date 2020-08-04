@@ -120,6 +120,7 @@ exports[`ShipSelector snapshot Check the ShipSelector Snapshot 1`] = `
       </label>
       <button
         style="padding-right: 15px;"
+        type="button"
       >
         Rotate
       </button>

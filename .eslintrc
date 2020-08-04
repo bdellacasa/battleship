@@ -1,7 +1,8 @@
 {
     "env": {
         "es6": true,
-        "browser": true
+        "browser": true,
+        "jest": true
     },
     "extends": [
         "airbnb", 
@@ -15,6 +16,7 @@
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "max-len": [2, 120, 4],
-        "no-plusplus": [2, { "allowForLoopAfterthoughts": true }]
+        "no-plusplus": [2, { "allowForLoopAfterthoughts": true }],
+        "jsx-a11y/label-has-associated-control": 0
     }
 }

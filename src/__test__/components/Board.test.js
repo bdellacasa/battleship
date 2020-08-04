@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { renderWithRedux } from '../TestUtils';
 import Board from '../../components/board/Board';
