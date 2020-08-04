@@ -25,8 +25,13 @@ const cpuAttack = () => (dispatch, getState) => {
   const boardState = state.board;
   const {
     playerBoard, cpuCoordinatesAttacked, lastCpuDirection, lastCpuHit, playerShips, playerShipDestroyed, cpuHasTarget,
-  } = helpers.cpuAttack(boardState.playerBoard, boardState.cpuCoordinatesAttacked, boardState.lastCpuDirection, boardState.lastCpuHit, boardState.playerShips, boardState.cpuHasTarget);
-  const _shipsPlayerCount = playerShipDestroyed ? boardState.shipsPlayerCount - 1 : boardState.shipsPlayerCount;
+  } = helpers.cpuAttack(boardState.playerBoard,
+    boardState.cpuCoordinatesAttacked,
+    boardState.lastCpuDirection,
+    boardState.lastCpuHit,
+    boardState.playerShips,
+    boardState.cpuHasTarget);
+  const shipsCount = playerShipDestroyed ? boardState.shipsPlayerCount - 1 : boardState.shipsPlayerCount;
 
   return dispatch({
     type: CPU_ATTACK,
@@ -36,7 +41,7 @@ const cpuAttack = () => (dispatch, getState) => {
       lastCpuDirection,
       lastCpuHit,
       playerShips,
-      shipsPlayerCount: _shipsPlayerCount,
+      shipsPlayerCount: shipsCount,
       updatedPlayerBoard: true,
       cpuHasTarget,
       attemptFeedback: undefined,
@@ -71,13 +76,15 @@ const updatePlayerBoard = (shipData) => (dispatch, getState) => {
 
     switch (shipData.ship.id) {
       case SHIP_TYPE_ID.CARRIER:
-        carriersAvailable--;
+        carriersAvailable -= 1;
         break;
       case SHIP_TYPE_ID.CRUISER:
-        cruisersAvailable--;
+        cruisersAvailable -= 1;
         break;
       case SHIP_TYPE_ID.SUBMARINE:
-        submarinesAvailable--;
+        submarinesAvailable -= 1;
+        break;
+      default:
         break;
     }
     args = {
@@ -109,11 +116,11 @@ const playerAttack = ({ row, col }) => (dispatch, getState) => {
   let attemptFeedback = 'Shot missed!';
   if (hit) {
     const codeShip = boardState.cpuBoard[row][col].code;
-    cpuShips[codeShip]--;
+    cpuShips[codeShip] -= 1;
     attemptFeedback = 'Ship hit!';
   }
   if (shipDestroyed) {
-    shipsCpuCount--;
+    shipsCpuCount -= 1;
     attemptFeedback = 'Ship destroyed!';
   }
   return dispatch({

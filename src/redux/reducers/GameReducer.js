@@ -3,7 +3,7 @@ import {
 } from '../actions/types';
 
 export const initialState = {
-  playerName: undefined,
+  playerName: '',
   currentPlayer: 'CPU',
   winner: undefined,
 };
@@ -13,7 +13,7 @@ export const gameReducer = (state = initialState, action) => {
     case UPDATE_PLAYER_NAME:
       return { ...state, playerName: action.args };
     case UPDATE_CURRENT_PLAYER:
-      if (state.currentPlayer == 'CPU') {
+      if (state.currentPlayer === 'CPU') {
         return { ...state, currentPlayer: state.playerName };
       } return { ...state, currentPlayer: 'CPU' };
     case UPDATE_WINNER:

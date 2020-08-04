@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   SHIP_TYPE_CARRIER, SHIP_TYPE_CRUISER, SHIP_TYPE_SUBMARINE, SHIP_ORIENTATION,
 } from '../../utils/Constants';
@@ -10,75 +11,82 @@ import Cruiser from '../../assets/cruiser.png';
 import Carrier from '../../assets/carrier.png';
 
 const ShipSelector = (props) => {
-  const [carriers, setCarriers] = useState(0);
-  const [cruisers, setCruisers] = useState(0);
-  const [submarines, setSubmarines] = useState(0);
+  const {
+    carriers,
+    cruisers,
+    submarines,
+    shipSaved,
+    restartSavedPlayerShip,
+    selectShip,
+    selectOrientation,
+  } = props;
+  const [currentCarriers, setCurrentCarriers] = useState(() => carriers);
+  const [currentCruisers, setCurrentCruisers] = useState(() => cruisers);
+  const [currentSubmarines, setCurrentSubmarines] = useState(() => submarines);
   const [orientation, setOrientation] = useState(SHIP_ORIENTATION.VERTICAL);
   const [lastShip, setLastShip] = useState(undefined);
 
-  useEffect(() => {
-    setCarriers(props.carriers);
-    setCruisers(props.cruisers);
-    setSubmarines(props.submarines);
-  }, []);
-
-  useEffect(() => {
-    if (props.shipSaved) {
-      shipSaved();
-    }
-  }, [props.shipSaved]);
-
-  const shipSaved = () => {
+  const updateShips = () => {
     switch (lastShip) {
       case 'Carrier':
-        if (carriers > 0) {
-          setCarriers(carriers - 1);
+        if (currentCarriers > 0) {
+          setCurrentCarriers(currentCarriers - 1);
         }
         break;
       case 'Cruise':
-        if (cruisers > 0) {
-          setCruisers(cruisers - 1);
+        if (currentCruisers > 0) {
+          setCurrentCruisers(currentCruisers - 1);
         }
         break;
       case 'Submarine':
-        if (submarines > 0) {
-          setSubmarines(submarines - 1);
+        if (currentSubmarines > 0) {
+          setCurrentSubmarines(currentSubmarines - 1);
         }
         break;
+      default:
+        break;
     }
-    props.restartSavedPlayerShip();
+    restartSavedPlayerShip();
   };
+
+  useEffect(() => {
+    if (shipSaved) {
+      updateShips();
+    }
+  }, [shipSaved]);
 
   const handleClickSelect = (title) => {
     switch (title) {
       case 'Carriers':
-        if (carriers > 0) {
+        if (currentCarriers > 0) {
           setLastShip('Carrier');
-          props.selectShip(SHIP_TYPE_CARRIER);
+          selectShip(SHIP_TYPE_CARRIER);
         }
         break;
       case 'Cruisers':
-        if (cruisers > 0) {
+        if (currentCruisers > 0) {
           setLastShip('Cruise');
-          props.selectShip(SHIP_TYPE_CRUISER);
+          selectShip(SHIP_TYPE_CRUISER);
         }
         break;
       case 'Submarines':
-        if (submarines > 0) {
+        if (currentSubmarines > 0) {
           setLastShip('Submarine');
-          props.selectShip(SHIP_TYPE_SUBMARINE);
+          selectShip(SHIP_TYPE_SUBMARINE);
         }
+        break;
+      default:
         break;
     }
   };
 
-  const handleClickRotate = () => {
+  const handleOnClick = () => {
     if (orientation === SHIP_ORIENTATION.HORIZONTAL) {
       setOrientation(SHIP_ORIENTATION.VERTICAL);
-      props.selectOrientation(SHIP_ORIENTATION.VERTICAL);
+      selectOrientation(SHIP_ORIENTATION.VERTICAL);
     } else {
       setOrientation(SHIP_ORIENTATION.HORIZONTAL);
-      props.selectOrientation(SHIP_ORIENTATION.HORIZONTAL);
+      selectOrientation(SHIP_ORIENTATION.HORIZONTAL);
     }
   };
 
@@ -105,21 +113,33 @@ const ShipSelector = (props) => {
     </RowContainer>
   );
 
+  const text = orientation === SHIP_ORIENTATION.HORIZONTAL ? 'Dir: Horizontal' : 'Dir: Vertical';
+
   const renderRotateButton = () => (
     <Row>
-      <label style={{ paddingRight: 15 }}>{orientation == SHIP_ORIENTATION.HORIZONTAL ? 'Dir: Horizontal' : 'Dir: Vertical'}</label>
-      <button style={{ paddingRight: 15 }} onClick={() => handleClickRotate()}>Rotate</button>
+      <label style={{ paddingRight: 15 }}>{text}</label>
+      <button style={{ paddingRight: 15 }} onClick={() => handleOnClick()}>Rotate</button>
     </Row>
   );
 
   return (
     <Container>
-      {renderRow('Carriers', carriers, Carrier)}
-      {renderRow('Cruisers', cruisers, Cruiser)}
-      {renderRow('Submarines', submarines, Submarine)}
+      {renderRow('Carriers', currentCarriers, Carrier)}
+      {renderRow('Cruisers', currentCruisers, Cruiser)}
+      {renderRow('Submarines', currentSubmarines, Submarine)}
       {renderRotateButton()}
     </Container>
   );
+};
+
+ShipSelector.propTypes = {
+  carriers: PropTypes.number.isRequired,
+  cruisers: PropTypes.number.isRequired,
+  submarines: PropTypes.number.isRequired,
+  shipSaved: PropTypes.bool.isRequired,
+  restartSavedPlayerShip: PropTypes.func.isRequired,
+  selectShip: PropTypes.func.isRequired,
+  selectOrientation: PropTypes.func.isRequired,
 };
 
 export default ShipSelector;

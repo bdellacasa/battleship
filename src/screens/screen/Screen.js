@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import background from '../../assets/background.png';
 import { Container, Header, Content } from './styles';
 
-const Screen = (props) => (
+const Screen = ({ content }) => (
   <Container>
     <Header>
       <p>
@@ -10,9 +11,13 @@ const Screen = (props) => (
       </p>
     </Header>
     <Content url={background}>
-      {props.content}
+      {content}
     </Content>
   </Container>
 );
+
+Screen.propTypes = {
+  content: PropTypes.node.isRequired,
+};
 
 export default Screen;

@@ -1,26 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import BoardActions from '../../redux/actions/BoardActions';
 import GameActions from '../../redux/actions/GameActions';
 import Screen from '../screen/Screen';
-import { Message } from './styles';
+import Message from './styles';
 import { Text, ScreenButton } from '../screenStyles';
 
-const EndGameScreen = (props) => {
+const EndGameScreen = ({ winner, resetBoard, restartGame }) => {
   const handleClickRestart = () => {
-    props.resetBoard();
-    props.restartGame();
+    resetBoard();
+    restartGame();
   };
 
   const renderContent = () => (
     <div>
       <div style={{ flexDirection: 'column' }}>
         <Message>
-          {props.winner
+          {winner
             ? (
               <Text>
-                {props.winner}
+                {winner}
                 {' '}
                 wins!
               </Text>
@@ -43,10 +44,16 @@ const EndGameScreen = (props) => {
   return (
     <Screen
       content={
-                renderContent()
-            }
+        renderContent()
+      }
     />
   );
+};
+
+EndGameScreen.propTypes = {
+  winner: PropTypes.string.isRequired,
+  resetBoard: PropTypes.func.isRequired,
+  restartGame: PropTypes.func.isRequired,
 };
 
 /**
@@ -54,7 +61,7 @@ const EndGameScreen = (props) => {
  * @param {ReduxState} state
  * @param {object} props
  */
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   winner: state.game.winner,
 });
 

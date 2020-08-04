@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Message = styled.div`
+const Message = styled.div`
     display: flex;
     flex-direction: column;
     border-color: black;
@@ -10,3 +10,5 @@ export const Message = styled.div`
     height: 30vh;
     justify-content: center;
 `;
+
+export default Message;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import BoardActions from '../../redux/actions/BoardActions';
 import GameActions from '../../redux/actions/GameActions';
 import Board from '../../components/board/Board';
@@ -11,43 +12,58 @@ import {
 import { Text, ScreenButton } from '../screenStyles';
 
 const GameScreen = (props) => {
+  const {
+    playerBoard,
+    cpuBoard,
+    updatedPlayerBoard,
+    shipsCpuCount,
+    shipsPlayerCount,
+    attemptFeedback,
+    playerName,
+    currentPlayer,
+    initCpuBoard,
+    playerAttack,
+    cpuAttack,
+    updateCurrentPlayer,
+    updateWinner,
+  } = props;
   const [finishGame, setFinishGame] = useState(false);
 
-  useEffect(() => {
-    props.initCpuBoard();
-    props.updateCurrentPlayer();
-  }, []);
-
-  useEffect(() => {
-    if (props.currentPlayer == 'CPU' && !props.updatedPlayerBoard) {
-      props.cpuAttack();
-    }
-
-    if (props.updatedPlayerBoard && props.currentPlayer == 'CPU') {
-      setTimeout(setTurn, 1000);
-    }
-  }, [props.currentPlayer, props.updatedPlayerBoard]);
-
   const checkWinner = () => {
-    if (props.shipsCpuCount == 0) {
-      props.updateWinner(props.playerName);
+    if (shipsCpuCount === 0) {
+      updateWinner(playerName);
       setFinishGame(true);
     }
 
-    if (props.shipsPlayerCount == 0) {
-      props.updateWinner('CPU');
+    if (shipsPlayerCount === 0) {
+      updateWinner('CPU');
       setFinishGame(true);
     }
   };
 
   const setTurn = () => {
     checkWinner();
-    props.updateCurrentPlayer();
+    updateCurrentPlayer();
   };
 
+  useEffect(() => {
+    initCpuBoard();
+    updateCurrentPlayer();
+  }, []);
+
+  useEffect(() => {
+    if (currentPlayer === 'CPU' && !updatedPlayerBoard) {
+      cpuAttack();
+    }
+
+    if (updatedPlayerBoard && currentPlayer === 'CPU') {
+      setTimeout(setTurn, 1000);
+    }
+  }, [currentPlayer, updatedPlayerBoard]);
+
   const handleClickBoard = (position) => {
-    if (props.currentPlayer !== 'CPU') {
-      props.playerAttack(position);
+    if (currentPlayer !== 'CPU') {
+      playerAttack(position);
       setTimeout(setTurn, 1000);
     }
   };
@@ -59,28 +75,28 @@ const GameScreen = (props) => {
           <BoardsContainer>
             <div style={{ flexDirection: 'column' }}>
               <div style={{ paddingBottom: 10 }}>
-                <Text>{props.playerName}</Text>
+                <Text>{playerName}</Text>
               </div>
-              <Board cpu={false} click={false} board={props.playerBoard} />
+              <Board cpu={false} click={false} board={playerBoard} />
             </div>
             <BoardCpuContainer>
               <div style={{ paddingBottom: 10 }}>
                 <Text>CPU</Text>
               </div>
-              <Board cpu click board={props.cpuBoard} onClickBoard={(position) => handleClickBoard(position)} />
+              <Board cpu click board={cpuBoard} onClickBoard={(position) => handleClickBoard(position)} />
             </BoardCpuContainer>
           </BoardsContainer>
           <BottomContainer>
             <FeedbackContainer>
               <Text size="1.4em">
-                {props.attemptFeedback}
+                {attemptFeedback}
               </Text>
             </FeedbackContainer>
             <ButtonContainer>
               <Text size="1.4em">
                 Playing:
                 {' '}
-                {props.currentPlayer}
+                {currentPlayer}
               </Text>
               <Link to="/end">
                 <ScreenButton>
@@ -96,10 +112,26 @@ const GameScreen = (props) => {
   return (
     <Screen
       content={
-                renderContent()
-            }
+        renderContent()
+      }
     />
   );
+};
+
+GameScreen.propTypes = {
+  playerBoard: PropTypes.arrayOf(PropTypes.array.isRequired).isRequired,
+  cpuBoard: PropTypes.arrayOf(PropTypes.array.isRequired).isRequired,
+  updatedPlayerBoard: PropTypes.bool.isRequired,
+  shipsCpuCount: PropTypes.number.isRequired,
+  shipsPlayerCount: PropTypes.number.isRequired,
+  attemptFeedback: PropTypes.string.isRequired,
+  playerName: PropTypes.string.isRequired,
+  currentPlayer: PropTypes.string.isRequired,
+  initCpuBoard: PropTypes.func.isRequired,
+  playerAttack: PropTypes.func.isRequired,
+  cpuAttack: PropTypes.func.isRequired,
+  updateCurrentPlayer: PropTypes.func.isRequired,
+  updateWinner: PropTypes.func.isRequired,
 };
 
 /**
@@ -107,7 +139,7 @@ const GameScreen = (props) => {
  * @param {ReduxState} state
  * @param {object} props
  */
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   playerBoard: state.board.playerBoard,
   cpuBoard: state.board.cpuBoard,
   updatedPlayerBoard: state.board.updatedPlayerBoard,
@@ -116,7 +148,6 @@ const mapStateToProps = (state, props) => ({
   attemptFeedback: state.board.attemptFeedback,
   playerName: state.game.playerName,
   currentPlayer: state.game.currentPlayer,
-  winner: state.game.winner,
 });
 
 const mapDispatchToProps = (dispatch) => ({
