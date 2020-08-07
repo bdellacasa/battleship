@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps, no-alert */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -25,31 +26,32 @@ const StartScreen = (props) => {
     updatePlayerName,
     restartSavedPlayerShip,
   } = props;
-  const [shipSelected, setShipSelected] = useState(undefined);
+  const [shipSelected, setShipSelected] = useState(0);
   const [orientation, setOrientation] = useState(SHIP_ORIENTATION.VERTICAL);
   const [start, setStart] = useState(false);
-  const [name, setName] = useState(undefined);
+  const [name, setName] = useState('');
   const [loadShipSelector, setLoadShipSelector] = useState(false);
-
-  const handleStart = () => {
-    if (shipsPlayerCount === NUMBER_OF_SHIP.TOTAL && playerName) {
-      setStart(true);
-    }
-  };
 
   useEffect(() => {
     initPlayerBoard();
   }, []);
 
   useEffect(() => {
+    const handleStart = () => {
+      if (shipsPlayerCount === NUMBER_OF_SHIP.TOTAL && playerName) {
+        setStart(true);
+      }
+    };
+
     if (savedPlayerShip) {
-      setShipSelected(undefined);
+      setShipSelected(0);
       handleStart();
     }
-  }, [savedPlayerShip]);
+  }, [shipsPlayerCount, playerName, savedPlayerShip]);
 
   const saveShip = async (position) => {
-    if (shipSelected) {
+    // eslint-disable-next-line
+    if (!!shipSelected) {
       const shipData = {
         row: position.row,
         col: position.col,
@@ -58,7 +60,6 @@ const StartScreen = (props) => {
       };
       await updatePlayerBoard(shipData);
     } else {
-      // eslint-disable-next-line no-alert
       alert('Please select a ship!');
     }
   };

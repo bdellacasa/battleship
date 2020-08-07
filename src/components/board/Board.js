@@ -8,16 +8,16 @@ const Board = (props) => {
   const {
     cpu, click, board, shipSelected, shipOrientation, onClickBoard,
   } = props;
-  const [positionsToMark, setPositionsToMark] = useState(undefined);
+  const [positionsToMark, setPositionsToMark] = useState([]);
 
   const markPositions = (row, col) => {
-    setPositionsToMark(undefined);
+    setPositionsToMark([]);
     if (shipSelected) {
       const positions = helpers.getShipPositions(board, shipSelected.size, row, col, shipOrientation);
       if (positions) {
         setPositionsToMark(positions);
       } else {
-        setPositionsToMark(undefined);
+        setPositionsToMark([]);
       }
     }
   };
@@ -33,7 +33,8 @@ const Board = (props) => {
     const updatedBoard = board.map((row, x) => (
       <Row key={x.toString()}>
         {row.map((column, y) => {
-          mark = positionsToMark && positionsToMark.findIndex((pos) => pos.row === x && pos.col === y) !== -1;
+          mark = positionsToMark.length > 0
+            && positionsToMark.findIndex((pos) => pos.row === x && pos.col === y) !== -1;
           return (
             <div key={y.toString()}>
               <Cell
@@ -71,7 +72,7 @@ Board.propTypes = {
 Board.defaultProps = {
   shipSelected: null,
   shipOrientation: null,
-  onClickBoard: () => {},
+  onClickBoard: () => { },
 };
 
 export default Board;

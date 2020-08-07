@@ -49,16 +49,22 @@ const GameScreen = (props) => {
   useEffect(() => {
     initCpuBoard();
     updateCurrentPlayer();
-  }, []);
+  }, [initCpuBoard, updateCurrentPlayer]);
 
   useEffect(() => {
+    const changeTurn = () => {
+      const timer = setTimeout(setTurn, 1000);
+      return () => clearTimeout(timer);
+    };
+
     if (currentPlayer === 'CPU' && !updatedPlayerBoard) {
       cpuAttack();
     }
 
     if (updatedPlayerBoard && currentPlayer === 'CPU') {
-      setTimeout(setTurn, 1000);
+      changeTurn();
     }
+    // eslint-disable-next-line
   }, [currentPlayer, updatedPlayerBoard]);
 
   const handleClickBoard = (position) => {

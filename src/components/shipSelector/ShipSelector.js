@@ -20,11 +20,11 @@ const ShipSelector = (props) => {
     selectShip,
     selectOrientation,
   } = props;
-  const [currentCarriers, setCurrentCarriers] = useState(() => carriers);
-  const [currentCruisers, setCurrentCruisers] = useState(() => cruisers);
-  const [currentSubmarines, setCurrentSubmarines] = useState(() => submarines);
+  const [currentCarriers, setCurrentCarriers] = useState(carriers);
+  const [currentCruisers, setCurrentCruisers] = useState(cruisers);
+  const [currentSubmarines, setCurrentSubmarines] = useState(submarines);
   const [orientation, setOrientation] = useState(SHIP_ORIENTATION.VERTICAL);
-  const [lastShip, setLastShip] = useState(undefined);
+  const [lastShip, setLastShip] = useState('');
 
   const updateShips = () => {
     switch (lastShip) {
@@ -53,6 +53,7 @@ const ShipSelector = (props) => {
     if (shipSaved) {
       updateShips();
     }
+    // eslint-disable-next-line
   }, [shipSaved]);
 
   const handleClickSelect = (title) => {
